@@ -4,19 +4,22 @@
   "description": "ERROR: No README.md file found!",
   "main": "index.js",
   "readmeFilename": "README.md",
-  "repository": "",
-  "author": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jamesjwood/data.git"
+  },
+  "author": "James Wood <james.wood@datatransparency.com>",
   "license": "BSD",
   "dependencies": {
     "utils": "git+ssh://git@github.com/jamesjwood/utils.git",
     "async": "~0.2.9",
     "core": "git+ssh://git@github.com/jamesjwood/core.git",
-    "objectTypes": "x",
+    "objectTypes": "git+ssh://git@github.com/jamesjwood/objectTypes.git",
     "pouchdb": "0.0.14",
     "nano": "3.3.8"
   },
   "devDependencies": {},
   "scripts": {
-    "test": "rm -rf stage; mkdir stage; mocha test;"
+    "test": "rm -rf stage; mkdir stage; mocha test.js;"
   }
 }
