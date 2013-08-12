@@ -25,7 +25,7 @@ var utils = require('utils');
 var MODULE_NAME = 'listbroData';
 
 
-module.exports = function dataAccessLayer(db, createLog, callback) {
+module.exports = function dataAccessLayer(db, types, createLog, callback) {
   "use strict";
   createLog('creating dal');
   var that = new events.EventEmitter();
@@ -228,7 +228,6 @@ module.exports = function dataAccessLayer(db, createLog, callback) {
     }
   };
 
-  var systemTypes = module.exports.objectTypes.systemTypes;
   var changes;
 
   var setupChangedFeed = function(cbk){
@@ -252,7 +251,7 @@ module.exports = function dataAccessLayer(db, createLog, callback) {
 
 
   createLog('checking indexes');
-  module.exports.ensureIndexesForTypes(systemTypes, db, createLog.wrap('checking system types'), utils.cb(callback, function () {
+  module.exports.ensureIndexesForTypes(types, db, createLog.wrap('checking system types'), utils.cb(callback, function () {
     setupChangedFeed(callback);
     //callback(null, that);
   }));

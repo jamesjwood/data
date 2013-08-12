@@ -188,7 +188,7 @@ it('1: should be able to create a dal', function (done) {
     mylog('creating new database');
     utils.safe(onDone, pouch)(dbName, utils.cb(onDone, function (db) {
       mylog('database created');
-      lib(db, mylog, utils.cb(onDone, function (dal) {
+      lib(db, [], mylog, utils.cb(onDone, function (dal) {
         onDone(undefined, dal);
       }));
     }));
@@ -217,7 +217,7 @@ pouch.destroy(dbName, utils.safe(onDone, function (error) {
   mylog('creating new database');
   pouch(dbName, utils.cb(onDone, function (db) {
     mylog('database created');
-    lib(db, mylog.wrap('creating dal'), utils.cb(onDone, function (dal) {
+    lib(db, [], mylog.wrap('creating dal'), utils.cb(onDone, function (dal) {
       mylog('dal created');
       dal.save(toBeSaved, mylog.wrap('saving'), utils.cb(onDone, function (mySaved) {
         assert.ok(mySaved);
@@ -299,7 +299,7 @@ pouch.destroy(dbName, utils.safe(onDone, function (error) {
   mylog('creating new database');
   utils.safe(onDone, pouch)(dbName, utils.cb(onDone, function (db) {
     mylog('database created');
-    lib(db, mylog, utils.cb(onDone, function (dal) {
+    lib(db, [], mylog, utils.cb(onDone, function (dal) {
       dal.on('change', function(c){
         mylog.dir(c);
         if(c.id ==='12323213213')
