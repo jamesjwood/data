@@ -8,16 +8,11 @@
 var jsonCrypto = require('jsonCrypto');
 var async = require('async');
 var events = require('events');
-
 var assert = require('assert');
-
 var listbroCore = require('core');
-
 var utils = require('utils');
 
-
-
-var MODULE_NAME = 'listbroData';
+var MODULE_NAME = 'data';
 
 
 module.exports = function dataAccessLayer(db, types, userPrivatePEMBuff, userCertificate, createLog) {
@@ -108,20 +103,8 @@ module.exports = function dataAccessLayer(db, types, userPrivatePEMBuff, userCer
       }
       cbk(error);
     };
-
-    if(typeof toBeDeleted.dirty !== 'undefined')
-    {
-      delete toBeDeleted.dirty;
-    }
-
-    log('removing: ' + toBeDeleted._id);
-
-    toBeDeleted.editor = userCertificate.name;
-    toBeDeleted.edited = new Date();
-    toBeDeleted._deleted === true;
-    var signedObject = jsonCrypto.signObject(toBeDeleted, userPrivatePEMBuff, userCertificate, true, log.wrap('signing object'));
-    
-    db.remove(signedObject, finish);
+    toBeDeleted._deleted = true;
+    that.save(toBeDeleted, log, cbk);
   };
 
 
@@ -129,7 +112,8 @@ module.exports = function dataAccessLayer(db, types, userPrivatePEMBuff, userCer
     assert.ok(viewName);
     assert.ok(viewArgs);
 
-    log(JSON.stringify(viewArgs));
+    log('querying');
+    log.dir(viewArgs);
     db.query(viewName, viewArgs, utils.safe(cbk, function (error, result) {
       if (error) {
         log('error querying database');
@@ -137,16 +121,9 @@ module.exports = function dataAccessLayer(db, types, userPrivatePEMBuff, userCer
         return;
       } else {
         log('queried database, results: ' + result.rows.length);
-        var res = [];
-        for (var i = 0; i < result.rows.length; i++) {
-          var val = result.rows[i].value;
-          if (typeof val.title === 'undefined') {
-            val.title = '';
-          }
-          res.push(val);
-        }
+        log.dir(result);
         log('returning results');
-        cbk(null, res);
+        cbk(null, result);
       }
 
     }));
@@ -247,7 +224,7 @@ module.exports = function dataAccessLayer(db, types, userPrivatePEMBuff, userCer
       return;
     }
     that.emit('setupComplete');
-  }
+  };
 
 
   var whenDbIsSetup = utils.safe(setupComplete, function(){
@@ -304,23 +281,23 @@ module.exports.getQuestionMapFunction = function (objectDefinition, questionDefi
 
 module.exports.map_relatedSingleChoice = function (objectDefinition, questionDefinition) {
   "use strict";
-  return "function(doc){if(doc.type && doc.type=='" + objectDefinition.typeName() + "'){emit([doc['" + (questionDefinition.deflatedName || questionDefinition.name) + "'], doc.title], {_id: doc._id, title: doc.title, titleDetail: doc.titleDetail, lastModified: doc.lastModified, created: doc.created, lastModifiedBy: doc.lastModifiedBy, createdBy: doc.createdBy});}}";
+  return "function(doc){if(doc.type && doc.type=='" + objectDefinition.typeName() + "'){emit([doc['" + (questionDefinition.deflatedName || questionDefinition.name) + "']], {_id: doc._id, title: doc.title, titleDetail: doc.titleDetail, lastModified: doc.lastModified, created: doc.created, lastModifiedBy: doc.lastModifiedBy, createdBy: doc.createdBy});}}";
 };
 module.exports.map_singleChoice = function (objectDefinition, questionDefinition) {
   "use strict";
-  return "function(doc){if(doc.type && doc.type=='" + objectDefinition.typeName() + "'){emit([doc['" + (questionDefinition.deflatedName || questionDefinition.name) + "'], doc.title], {_id: doc._id, title: doc.title, titleDetail: doc.titleDetail, lastModified: doc.lastModified, created: doc.created, lastModifiedBy: doc.lastModifiedBy, createdBy: doc.createdBy});}}";
+  return "function(doc){if(doc.type && doc.type=='" + objectDefinition.typeName() + "'){emit([doc['" + (questionDefinition.deflatedName || questionDefinition.name) + "']], {_id: doc._id, title: doc.title, titleDetail: doc.titleDetail, lastModified: doc.lastModified, created: doc.created, lastModifiedBy: doc.lastModifiedBy, createdBy: doc.createdBy});}}";
 };
 module.exports.map_text = function (objectDefinition, questionDefinition) {
   "use strict";
-  return "function(doc){if(doc.type && doc.type=='" + objectDefinition.typeName() + "'){emit([doc['" + (questionDefinition.deflatedName || questionDefinition.name) + "'], doc.title], {_id: doc._id, title: doc.title, titleDetail: doc.titleDetail, lastModified: doc.lastModified, created: doc.created, lastModifiedBy: doc.lastModifiedBy, createdBy: doc.createdBy});}}";
+  return "function(doc){if(doc.type && doc.type=='" + objectDefinition.typeName() + "'){emit([doc['" + (questionDefinition.deflatedName || questionDefinition.name) + "']], {_id: doc._id, title: doc.title, titleDetail: doc.titleDetail, lastModified: doc.lastModified, created: doc.created, lastModifiedBy: doc.lastModifiedBy, createdBy: doc.createdBy});}}";
 };
 module.exports.map_identity = function (objectDefinition, questionDefinition) {
   "use strict";
-  return "function(doc){if(doc.type && doc.type=='" + objectDefinition.typeName() + "'){emit([doc['" + (questionDefinition.deflatedName || questionDefinition.name) + "'], doc.title], {_id: doc._id, title: doc.title, titleDetail: doc.titleDetail, lastModified: doc.lastModified, created: doc.created, lastModifiedBy: doc.lastModifiedBy, createdBy: doc.createdBy});}}";
+  return "function(doc){if(doc.type && doc.type=='" + objectDefinition.typeName() + "'){emit([doc['" + (questionDefinition.deflatedName || questionDefinition.name) + "']], {_id: doc._id, title: doc.title, titleDetail: doc.titleDetail, lastModified: doc.lastModified, created: doc.created, lastModifiedBy: doc.lastModifiedBy, createdBy: doc.createdBy});}}";
 };
 module.exports.map_email = function (objectDefinition, questionDefinition) {
   "use strict";
-  return "function(doc){if(doc.type && doc.type=='" + objectDefinition.typeName() + "'){emit([doc['" + (questionDefinition.deflatedName || questionDefinition.name) + "'], doc.title], {_id: doc._id, title: doc.title, titleDetail: doc.titleDetail, lastModified: doc.lastModified, created: doc.created, lastModifiedBy: doc.lastModifiedBy, createdBy: doc.createdBy});}}";
+  return "function(doc){if(doc.type && doc.type=='" + objectDefinition.typeName() + "'){emit([doc['" + (questionDefinition.deflatedName || questionDefinition.name) + "']], {_id: doc._id, title: doc.title, titleDetail: doc.titleDetail, lastModified: doc.lastModified, created: doc.created, lastModifiedBy: doc.lastModifiedBy, createdBy: doc.createdBy});}}";
 };
 module.exports.map_multiChoice = function (objectDefinition, questionDefinition) {
   "use strict";

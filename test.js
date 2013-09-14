@@ -6,11 +6,9 @@
 /*global before */
 /*global after */
 /*global Pouch */
-
 var assert = require('assert');
 var utils = require('utils');
 var async = require('async');
-var nano  = require('nano');
 var masterLog = utils.log().wrap('data');
 
 var lib = require('./index.js');
@@ -89,24 +87,9 @@ describe('data', function () {
       pouch.destroy(dbName, utils.safe(cbs, function (error) {
         cbs();
       }));
-    }, utils.safe(d, function(){
-      var s = nano(remoteDbUrl);
-      s.db.list(function(err, body){
-        async.forEachSeries(body, function(name, cbk){
-          if(name.substr(0,6) === 'testdb')
-          {
-            console.log(name);
-            s.db.destroy(encodeURI(name), cbk);
-          }
-          else
-          {
-            cbk();
-          }
-        }, function(){
-          d();
-        });
-      });
-    }));
+    }, function(){
+      d();
+    });
   });
 
 
