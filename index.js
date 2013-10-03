@@ -51,15 +51,34 @@ module.exports = function dataAccessLayer(db, types, userPrivatePEMBuff, userCer
     }));
   };
 
+  var prepareForSave = function(toBeSaved, log){
+     var id = toBeSaved._id;
+    assert.ok(id, "must have an _id");
+
+    if(!toBeSaved.creator)
+    {
+      toBeSaved.creator = userCertificate.id;
+      toBeSaved.created = new Date();
+    }
+    if(typeof toBeSaved.dirty !== 'undefined')
+    {
+      delete toBeSaved.dirty;
+    }
+    log('signing the object');
+    toBeSaved.editor = userCertificate.id;
+    toBeSaved.edited = new Date();
+    var signedObject = jsonCrypto.signObject(toBeSaved, userPrivatePEMBuff, userCertificate, true, log.wrap('signing object'));
+    return signedObject;
+  };
+
+
   that.save = function (toBeSaved, log, cbk) {
     //callback.log('save');
     assert.ok(toBeSaved);
     assert.ok(log);
     assert.ok(cbk);
 
-    var id = toBeSaved._id;
-    assert.ok(id, "must have an _id");
-
+    
     var finish = function(error){
       if(error)
       {
@@ -69,26 +88,13 @@ module.exports = function dataAccessLayer(db, types, userPrivatePEMBuff, userCer
       cbk.apply(this, arguments);
     };
 
-    if(!toBeSaved.creator)
-    {
-      toBeSaved.creator = userCertificate.name;
-      toBeSaved.created = new Date();
-    }
-    if(typeof toBeSaved.dirty !== 'undefined')
-    {
-      delete toBeSaved.dirty;
-    }
-    log('signing the object');
-    toBeSaved.editor = userCertificate.name;
-    toBeSaved.edited = new Date();
-    var signedObject = jsonCrypto.signObject(toBeSaved, userPrivatePEMBuff, userCertificate, true, log.wrap('signing object'));
-    log('saving');
+    var signedObject = prepareForSave(toBeSaved, log);
     db.put(signedObject, utils.cb(finish, function(response)
     {
       log('saved, updating rev');
       signedObject._rev = response.rev;
-      log('returning');
-      cbk(undefined, signedObject);
+
+      finish(undefined, signedObject);
     }));
   };
 
@@ -104,7 +110,12 @@ module.exports = function dataAccessLayer(db, types, userPrivatePEMBuff, userCer
       cbk(error);
     };
     toBeDeleted._deleted = true;
-    that.save(toBeDeleted, log, cbk);
+    var signedObject = prepareForSave(toBeDeleted, log);
+    db.put(signedObject,  utils.cb(finish, function(response){
+      log('removed');
+      //signedObject._rev = response.rev;
+      finish();
+    }));
   };
 
 

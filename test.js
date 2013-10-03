@@ -24,7 +24,7 @@ var EXPONENT = 65537;
 var MODULUS = 512;
 
 var userKeyPair = jsonCrypto.generateKeyPEMBufferPair(MODULUS, EXPONENT);
-var userCertificate =  jsonCrypto.createCert('user_1', userKeyPair.publicPEM);
+var userCertificate =  jsonCrypto.createCert(userKeyPair.publicPEM);
 
 
 var remoteDbUrl = 'http://admin:password@localhost:5984/';

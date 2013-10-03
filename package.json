@@ -11,11 +11,11 @@
   "author": "James Wood <james.wood@datatransparency.com>",
   "license": "BSD",
   "dependencies": {
-    "utils": "git+ssh://git@github.com/jamesjwood/utils.git",
+    "utils": "git://git@github.com/jamesjwood/utils.git",
     "async": "~0.2.9",
-    "core": "git+ssh://git@github.com/jamesjwood/core.git",
-    "objectTypes": "git+ssh://git@github.com/jamesjwood/objectTypes.git",
-    "pouchdb": "0.0.14",
+    "core": "git://git@github.com/jamesjwood/core.git",
+    "objectTypes": "git://git@github.com/jamesjwood/objectTypes.git",
+    "pouchdb": "git://git@github.com/jamesjwood/pouchdb.git",
     "nano": "3.3.8"
   },
   "devDependencies": {
