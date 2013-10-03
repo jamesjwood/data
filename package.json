@@ -13,8 +13,8 @@
   "dependencies": {
     "utils": "git+ssh://git@github.com/jamesjwood/utils.git",
     "async": "~0.2.9",
-    "core": "git+ssh://git@github.com/jamesjwood/core.git",
-    "objectTypes": "git+ssh://git@github.com/jamesjwood/objectTypes.git",
+    "core": "git+https://d5964b9e1dcc7be9af62cb9138a7b60d479f3a06:x-oauth-basic@github.com/jamesjwood/core.git",
+    "objectTypes": "git+https://d5964b9e1dcc7be9af62cb9138a7b60d479f3a06:x-oauth-basic@github.com/jamesjwood/objectTypes.git",
     "pouchdb": "git+ssh://git@github.com/jamesjwood/pouchdb.git",
     "nano": "3.3.8"
   },
