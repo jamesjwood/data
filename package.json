@@ -15,8 +15,7 @@
     "async": "~0.2.9",
     "core": "git+https://d5964b9e1dcc7be9af62cb9138a7b60d479f3a06:x-oauth-basic@github.com/jamesjwood/core.git",
     "objectTypes": "git+https://d5964b9e1dcc7be9af62cb9138a7b60d479f3a06:x-oauth-basic@github.com/jamesjwood/objectTypes.git",
-    "pouchdb": "git://github.com/jamesjwood/pouchdb.git",
-    "nano": "3.3.8"
+    "pouchdb": "git://github.com/daleharvey/pouchdb.git"
   },
   "devDependencies": {
     "mocha": "1.10.0",
@@ -26,7 +25,8 @@
     "grunt-shell": "0.3.0",
     "grunt-karma": "0.4.5",
     "browserify": "1.17.3",
-    "sinon": "1.5.2"
+    "sinon": "1.5.2",
+    "nano": "3.3.8"
   },
   "scripts": {
     "test": "rm -rf stage; mkdir stage; mocha test.js;"
