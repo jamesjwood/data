@@ -36,11 +36,10 @@ var dbName = 'system';
 describe('data', function () {
   'use strict';
 
-  var pouch;
+  var pouch = require('pouchdb');
   if (typeof window === 'undefined') {
     masterLog('running on server');
-    localDbUrl = 'leveldb://stage/';
-    pouch = require('pouchdb');
+    localDbUrl = 'leveldb://stage/'; 
   }
   else {
     localDbUrl ='';
@@ -56,7 +55,6 @@ describe('data', function () {
       localDbUrl = 'websql://';
     }             
     */
-    pouch = Pouch;
   }
 
 

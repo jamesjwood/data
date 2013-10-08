@@ -10,7 +10,7 @@ basePath = 'stage/';
 files = [
 	MOCHA,
 	MOCHA_ADAPTER,
-	'../lib/pouch.js',
+    '../node_modules/jsonCrypto/lib/forge.min.js',
 	'test.js'
 ];
 
