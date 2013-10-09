@@ -12,9 +12,10 @@
   "license": "BSD",
   "dependencies": {
     "utils": "git://github.com/jamesjwood/utils.git",
-    "async": "~0.2.9",
+    "async": "0.2.x",
     "core": "git+https://d5964b9e1dcc7be9af62cb9138a7b60d479f3a06:x-oauth-basic@github.com/jamesjwood/core.git",
     "objectTypes": "git+https://d5964b9e1dcc7be9af62cb9138a7b60d479f3a06:x-oauth-basic@github.com/jamesjwood/objectTypes.git",
+    "jsonCrypto": "git://github.com/jamesjwood/jsonCrypto.git",
     "pouchdb": "git://github.com/daleharvey/pouchdb.git"
   },
   "devDependencies": {
