@@ -39,9 +39,10 @@ module.exports = function dataAccessLayer(db, types, userPrivatePEMBuff, userCer
           return;
         }
       }
-      found.dirty = false;
+      
       if (found) {
         log('record found with id: ' + id);
+        found.dirty = false;
         cbk(null, found);
       } else {
         log('no record found with id: ' + id);
