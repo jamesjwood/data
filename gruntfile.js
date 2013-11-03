@@ -74,7 +74,7 @@ grunt.loadNpmTasks('grunt-simple-mocha');
 grunt.loadNpmTasks('grunt-karma');
 
 grunt.registerTask('installold', ['shell:makeLib', 'shell:buildPouchDBClient', 'shell:copyPouch']);
-grunt.registerTask('default', ['jshint', 'simplemocha']);
-grunt.registerTask('test', ['default', 'shell:makeStage','shell:browserify', 'karma']);
+grunt.registerTask('default', ['jshint']);
+grunt.registerTask('test', ['default', 'simplemocha', 'shell:makeStage','shell:browserify', 'karma']);
 
 };
