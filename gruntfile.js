@@ -29,8 +29,7 @@ shell: {
         stdout: true,
         stderr: true,
         failOnError: true
-      }
-      ,
+      },
       makeLib: {
         command: 'rm -rf lib; mkdir lib',
         stdout: true,
@@ -65,7 +64,8 @@ shell: {
     }
   });
 
-grunt.loadNpmTasks('grunt-contrib');
+grunt.loadNpmTasks('grunt-contrib-watch');
+grunt.loadNpmTasks('grunt-contrib-jshint');
 grunt.loadNpmTasks('grunt-shell');
 grunt.loadNpmTasks('grunt-simple-mocha');
 
@@ -75,6 +75,6 @@ grunt.loadNpmTasks('grunt-karma');
 
 grunt.registerTask('installold', ['shell:makeLib', 'shell:buildPouchDBClient', 'shell:copyPouch']);
 grunt.registerTask('default', ['jshint']);
-grunt.registerTask('test', ['default', 'simplemocha', 'shell:makeStage','shell:browserify', 'karma']);
+grunt.registerTask('test', ['default', 'shell:makeStage', 'simplemocha','shell:browserify', 'karma']);
 
 };

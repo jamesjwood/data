@@ -19,17 +19,20 @@
     "pouchdb": "git://github.com/daleharvey/pouchdb.git"
   },
   "devDependencies": {
-    "mocha": "1.13.x",
     "grunt": "0.4.x",
-    "grunt-contrib": "0.8.x",
+    "grunt-contrib-jshint": "0.7.x",
+    "grunt-contrib-watch": "0.5.x",
     "grunt-simple-mocha": "0.4.x",
     "grunt-shell": "0.5.x",
     "grunt-karma": "0.6.x",
     "sinon": "1.7.x",
     "nano": "4.1.x",
-    "browserify": "2.35.x"
+    "browserify": "2.35.x",
+    "mocha": "~1.14.0",
+    "karma-mocha": "0.1.x"
   },
   "scripts": {
-    "test": "rm -rf stage; mkdir stage; mocha test.js;"
+    "test": "rm -rf stage; mkdir stage; mocha test.js;",
+    "link": "npm link utils;npm link core;npm link objectTypes;npm link jsonCrypto;npm link;"
   }
 }
