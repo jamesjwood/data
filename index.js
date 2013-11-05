@@ -132,8 +132,8 @@ module.exports = function dataAccessLayer(db, types, userPrivatePEMBuff, userCer
         cbk(new Error(viewName + ": " + error.error));
         return;
       } else {
-        log('queried database, results: ' + result.rows.length);
         log.dir(result);
+        log('queried database, results: ' + result.rows.length);
         log('returning results');
         cbk(null, result);
       }
