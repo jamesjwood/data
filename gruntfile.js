@@ -1,12 +1,17 @@
+var getWatchers = require('getwatchers');
+
 module.exports = function(grunt) {
   "use strict";
   // Project configuration.
   grunt.initConfig({
-    watch: {
-      options: {
-        interrupt: true,
-      files: ['index.js', 'test.js', './src/*.js', './test/*.js'],
-      tasks: ['test']
+   watch: {
+      js: {
+        options: {
+          debounceDelay: 5000,
+          interrupt: true
+        },
+        files: getWatchers(),
+        tasks: ['default']
       }
     },
     jshint: {
@@ -61,20 +66,18 @@ shell: {
         singleRun: true,
         browsers: ['Chrome'] //, 'Firefox', 'Safari', 'Opera'
       }
+    },
+    bump: {
+        options: {},
+        files: [ 'package.json']
     }
   });
 
-grunt.loadNpmTasks('grunt-contrib-watch');
-grunt.loadNpmTasks('grunt-contrib-jshint');
-grunt.loadNpmTasks('grunt-shell');
-grunt.loadNpmTasks('grunt-simple-mocha');
 
-
-
-grunt.loadNpmTasks('grunt-karma');
+require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
 
 grunt.registerTask('installold', ['shell:makeLib', 'shell:buildPouchDBClient', 'shell:copyPouch']);
-grunt.registerTask('default', ['jshint']);
+grunt.registerTask('default', ['jshint', 'bump']);
 grunt.registerTask('test', ['default', 'shell:makeStage', 'simplemocha','shell:browserify', 'karma']);
 
 };
