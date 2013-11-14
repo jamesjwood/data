@@ -10,6 +10,7 @@ module.exports = function(config) {
 		files: [
 			'node_modules/jsonCrypto/lib/forge.min.js',
 			'stage/test.js'
-		]
+		],
+    port: 9873
 	});
 };

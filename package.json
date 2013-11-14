@@ -1,6 +1,6 @@
 {
     "name": "data",
-    "version": "0.0.0-28",
+    "version": "0.0.0-36",
     "description": "ERROR: No README.md file found!",
     "main": "index.js",
     "readmeFilename": "README.md",
@@ -36,6 +36,6 @@
     },
     "scripts": {
         "test": "rm -rf stage; mkdir stage; mocha test.js;",
-        "link": "rm -R node_modules; npm link getWatchers; npm link utils;npm link core;npm link objectTypes;npm link jsonCrypto;npm link;"
+        "link": "rm -R node_modules; npm link; npm link getWatchers; npm link utils;npm link core;npm link objectTypes;npm link jsonCrypto;"
     }
 }
