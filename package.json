@@ -1,6 +1,6 @@
 {
     "name": "data",
-    "version": "0.0.0-36",
+    "version": "0.0.0-61",
     "description": "ERROR: No README.md file found!",
     "main": "index.js",
     "readmeFilename": "README.md",
@@ -32,7 +32,8 @@
         "mocha": "~1.14.0",
         "karma-mocha": "0.1.x",
         "grunt-bumpx": "~0.1.5",
-        "matchdep": "~0.3.0"
+        "matchdep": "~0.3.0",
+        "karma-safari-launcher": "~0.1.1"
     },
     "scripts": {
         "test": "rm -rf stage; mkdir stage; mocha test.js;",

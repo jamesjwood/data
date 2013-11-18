@@ -83,7 +83,7 @@ shell: {
       local: {
         configFile: 'karma.conf.js',
         singleRun: true,
-        browsers: ['Chrome'] //, 'Firefox', 'Safari', 'Opera'
+        browsers: ['Safari'] //, 'Firefox', 'Safari', 'Opera'
       }
     },
     bump: {

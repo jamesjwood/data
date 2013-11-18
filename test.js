@@ -59,8 +59,13 @@ describe('data', function () {
 
 
   var fakeData = {};
-  var fakePouch = {
-    get: function (_id, callback) {
+  var fakePouch = {};
+  ['put', 'post', 'get', 'allDocs', 'changes', 'bulkDocs', 'info', 'view', 'query', 'remove'].map(function(name){
+    fakePouch[name] = function () {
+    };
+  });
+
+ fakePouch.get= function (_id, callback) {
       if (fakeData[_id]) {
         callback(null, fakeData[_id]);
       }
@@ -69,15 +74,18 @@ describe('data', function () {
           error: 'not_found'
         });
       }
-    },
-    put: function (object, callback) {
+  };
+    
+  fakePouch.put= function (object, callback) {
       fakeData[object._id] = object;
       callback();
-    },
-    query: function (name, callback) {
+    };
+  
+  fakePouch.query= function (name, callback) {
       callback();
-    }
-  };
+    };
+
+
 
   after(function(d){
     async.forEach([9,10,11,12], function(number, cbs){
@@ -188,8 +196,15 @@ it('4: ensureIndexesForType', function (done) {
   var mylog = masterLog.wrap('4');
   var myType = lib.objectTypes.login;
   var fakeData = {};
-  var fakeDB = {
-    get: function (_id, callback) {
+
+  var fakePouch = {};
+  ['put', 'post', 'get', 'allDocs', 'changes', 'bulkDocs', 'info', 'view', 'query', 'remove'].map(function(name){
+    fakePouch[name] = function () {
+    };
+  });
+
+
+  fakePouch.get= function (_id, callback) {
       if (fakeData[_id]) {
         callback(null, fakeData[_id]);
       }
@@ -198,22 +213,21 @@ it('4: ensureIndexesForType', function (done) {
           error: 'not_found'
         });
       }
-    },
-    put: function (object, callback) {
+    };
+  fakePouch.put= function (object, callback) {
       fakeData[object._id] = object;
       callback();
-    },
-    query: function (name, callback) {
+    };
+  fakePouch.query=  function (name, callback) {
       callback();
-    }
-  };
+    };
 
-  lib.ensureIndexesForType(myType, fakeDB, mylog, function (error2, result) {
+  lib.ensureIndexesForType(myType, fakePouch, mylog, function (error2, result) {
     assert.ifError(error2);
 
     assert.ok(fakeData['_design/login']);
     assert.equal(true, result, 'should create a new view');
-    lib.ensureIndexesForType(myType, fakeDB, mylog, function (error3, result2) {
+    lib.ensureIndexesForType(myType, fakePouch, mylog, function (error3, result2) {
       assert.ifError(error2);
       assert.equal(false, result2, 'should not updatethe view if no changes');
       done();

@@ -12,11 +12,30 @@ var assert = require('assert');
 var listbroCore = require('core');
 var utils = require('utils');
 
+var is = utils.is;
+
 var MODULE_NAME = 'data';
 
 
 module.exports = function dataAccessLayer(db, types, userPrivatePEMBuff, userCertificate, createLog) {
   "use strict";
+
+  is.object(db, 'db');
+  is.object(types, 'types');
+  is.function(createLog, 'createLog');
+
+
+  is.function(db.put, 'db.put');
+  is.function(db.post, 'db.post');
+  is.function(db.get, 'db.get');
+  is.function(db.allDocs, 'db.allDocs');
+  is.function(db.changes, 'db.changes');
+  is.function(db.bulkDocs, 'db.bulkDocs');
+  is.function(db.info, 'db.info');
+  is.function(db.query, 'db.query');
+  is.function(db.remove, 'db.remove');
+
+
   createLog('creating dal');
   var that = new events.EventEmitter();
 
@@ -25,7 +44,10 @@ module.exports = function dataAccessLayer(db, types, userPrivatePEMBuff, userCer
   listbroCore.requireNotNull('db', db);
 
   that.get = function (id, log, cbk) {
-    assert.ok(id);
+    is.string(id);
+    is.function(log);
+    is.function(cbk);
+
     log('getting from db');
     db.get(id, utils.safe(cbk, function (error, found) {
       log('response from db');
@@ -120,27 +142,29 @@ module.exports = function dataAccessLayer(db, types, userPrivatePEMBuff, userCer
   };
 
 
-  that.executeView = function (viewName, viewArgs, log, cbk) {
-    assert.ok(viewName);
-    assert.ok(viewArgs);
 
-    log('querying');
-    log.dir(viewArgs);
+  that.executeView = utils.f(function executeView(viewName, viewArgs, log, cbk) {
+    assert.ok(viewName);
+    is.object(viewArgs, 'viewArgs');
+    is.function(log, 'log');
+    is.function(cbk, 'cbk');
+    log('querying with args: ' + JSON.stringify(viewArgs));
+
+    log('query');
     db.query(viewName, viewArgs, utils.safe(cbk, function (error, result) {
       if (error) {
         log('error querying database');
-        cbk(new Error(viewName + ": " + error.error));
+        var e = new Error('Error querying database view: ' +viewName);
+        e.inner = error;
+        cbk(e);
         return;
       } else {
-        log.dir(result);
         log('queried database, results: ' + result.rows.length);
         log('returning results');
         cbk(null, result);
       }
-
     }));
-
-  };
+  });
 
   that.view = function (viewArgs, log, cbks) {
     listbroCore.requireNotNull('viewArgs', viewArgs);
