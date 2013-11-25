@@ -271,6 +271,7 @@ module.exports = function dataAccessLayer(db, types, userPrivatePEMBuff, userCer
         that.seq = info.update_seq;
         runLog('setting up changes feed from:' + that.seq);
 
+/*
         changes = db.changes({since: info.update_seq, include_docs:true, continuous: true, onChange: function(change){ 
           try
           {
@@ -283,6 +284,7 @@ module.exports = function dataAccessLayer(db, types, userPrivatePEMBuff, userCer
             runLog.error(error);
           }
         }});
+*/
         setupComplete();
       }));
     }));
