@@ -27,7 +27,7 @@ var userKeyPair = jsonCrypto.generateKeyPEMBufferPair(MODULUS, EXPONENT);
 var userCertificate =  jsonCrypto.createCert(userKeyPair.publicPEM);
 
 
-var remoteDbUrl = 'http://admin:password@localhost:5984/';
+var remoteDbUrl = 'http://admin:password@local.dev:5985/';
 
 var localDbUrl;
 
@@ -35,6 +35,8 @@ var dbName = 'system';
 
 describe('data', function () {
   'use strict';
+
+  process.env.LOG = 'false';
 
   var pouch = require('pouchdb');
   if (typeof window === 'undefined') {
@@ -44,19 +46,7 @@ describe('data', function () {
   else {
     localDbUrl ='';
     masterLog('running on browser');
-
-    /*window.indexedDB = window.indexedDB || window.webkitIndexedDB || window.mozIndexedDB;
-    if(typeof window.indexedDB !=='undefined')
-    {
-        localDbUrl = 'idb://';
-    }  
-    else
-    {
-      localDbUrl = 'websql://';
-    }             
-    */
   }
-
 
   var fakeData = {};
   var fakePouch = {};
@@ -87,9 +77,9 @@ describe('data', function () {
 
 
 
-  after(function(d){
-    async.forEach([9,10,11,12], function(number, cbs){
-      var dbName = remoteDbUrl + 'test-data-' + number;
+  before(function(d){
+    async.forEach([1,2, 5], function(number, cbs){
+      var dbName = remoteDbUrl + 'test-data-' + number.toString();
       pouch.destroy(dbName, utils.safe(cbs, function (error) {
         cbs();
       }));
@@ -236,6 +226,7 @@ it('4: ensureIndexesForType', function (done) {
 
 });
 it('5: should raise change events', function (done) {
+  this.timeout(5000);
  var mylog = masterLog.wrap('5');
  var onDone = function (error) {
   if (error) {
@@ -252,6 +243,7 @@ pouch.destroy(dbName, utils.safe(onDone, function (error) {
     var dal = lib(db, [], userKeyPair.privatePEM, userCertificate, mylog);
     dal.on('setupComplete', utils.safe.catchSyncronousErrors(onDone, function () {
       dal.on('change', function(c){
+        mylog.log('change detected');
         mylog.dir(c);
         if(c.id ==='12323213213')
         {
