@@ -46,7 +46,18 @@ module.exports = function(grunt) {
       },
       all: { src: ['test.js'] }
     },
-shell: {
+    browserify: {
+      test: {
+        files: {
+          './stage/test.js': ['./test.js'],
+        },
+        options: {
+          debug: true,
+          ignore: ['domain', 'loggly', 'ga', 'universal-analytics']
+        },
+      }
+    },
+    shell: {
       makeStage: {
         command: 'rm -rf stage; mkdir stage',
         options:{
@@ -104,8 +115,8 @@ shell: {
 
 require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
 
-grunt.registerTask('installold', ['shell:makeLib', 'shell:buildPouchDBClient', 'shell:copyPouch']);
-grunt.registerTask('test', ['jshint', 'shell:makeStage', 'simplemocha','shell:browserify', 'karma']);
+grunt.registerTask('install', []);
+grunt.registerTask('test', ['jshint', 'shell:makeStage', 'simplemocha','browserify', 'karma']);
 grunt.registerTask('development', ['bumpup:prerelease']);
 grunt.registerTask('production', ['bumpup:patch']);
 };
