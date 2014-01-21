@@ -117,6 +117,6 @@ require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
 
 grunt.registerTask('install', []);
 grunt.registerTask('test', ['jshint', 'shell:makeStage', 'simplemocha','browserify', 'karma']);
-grunt.registerTask('development', ['bumpup:prerelease']);
-grunt.registerTask('production', ['bumpup:patch']);
+grunt.registerTask('development', []);
+grunt.registerTask('production', []);
 };
