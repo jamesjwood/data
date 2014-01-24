@@ -5,12 +5,12 @@
 /*global require */
 /*jslint node: true */
 
-var jsonCrypto = require('jsonCrypto');
+var jsonCrypto = require('tsuju-jsoncrypto');
 var async = require('async');
 var events = require('events');
 var assert = require('assert');
-var listbroCore = require('core');
-var utils = require('utils');
+var listbroCore = require('tsuju-core');
+var utils = require('tsuju-utils');
 
 var is = utils.is;
 
@@ -302,7 +302,7 @@ module.exports = function dataAccessLayer(db, types, userPrivatePEMBuff, userCer
   return that;
 };
 
-module.exports.objectTypes = require('objectTypes');
+module.exports.objectTypes = require('tsuju-objecttypes');
 
 var map = "function(doc) {if(doc.type){emit(doc.type, doc);}}"; //if(doc.type) {if (doc.type === '" + typename +"');
 module.exports.getQuestionMapFunction = function (objectDefinition, questionDefinition) {

@@ -1,6 +1,6 @@
 {
   "name": "tsuju-data",
-  "version": "0.0.3-0",
+  "version": "0.0.4",
   "description": "ERROR: No README.md file found!",
   "main": "index.js",
   "readmeFilename": "README.md",
@@ -19,6 +19,7 @@
     "async": "0.2.x"
   },
   "devDependencies": {
+    "browserify": "2.35.x",
     "grunt": "0.4.x",
     "grunt-contrib-jshint": "0.8.x",
     "grunt-contrib-watch": "0.5.x",
@@ -28,8 +29,7 @@
     "grunt-bumpup": "0.5.x",
     "grunt-browserify": "1.3.x",
     "sinon": "1.7.x",
-    "nano": "4.3.x",
-    "browserify": "3.20.x",
+    "nano": "4.2.x",
     "mocha": "1.17.x",
     "karma-mocha": "0.1.x",
     "grunt-bumpx": "0.1.x",

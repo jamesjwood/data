@@ -7,9 +7,9 @@
 /*global after */
 /*global Pouch */
 var assert = require('assert');
-var utils = require('utils');
+var utils = require('tsuju-utils');
 var async = require('async');
-var masterLog = utils.log().wrap('data');
+var masterLog = utils.log().wrap('tsuju-data');
 
 var lib = require('./index.js');
 
@@ -17,7 +17,7 @@ if (typeof process.env.COVERAGE !== 'undefined') {
   //lib = require('./../../../lib-cov/shared/data.js');
   masterLog = utils.log.fake();
 }
-var jsonCrypto = require('jsonCrypto');
+var jsonCrypto = require('tsuju-jsoncrypto');
 
 
 var EXPONENT = 65537;
@@ -38,7 +38,8 @@ describe('data', function () {
 
   process.env.LOG = 'false';
 
-  var pouch = require('pouchdb');
+  var pouch = require('tsuju-pouchdb');
+  
   if (typeof window === 'undefined') {
     masterLog('running on server');
     localDbUrl = 'leveldb://stage/'; 
