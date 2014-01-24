@@ -1,5 +1,5 @@
 {
-  "name": "data",
+  "name": "tsuju-data",
   "version": "0.0.3-0",
   "description": "ERROR: No README.md file found!",
   "main": "index.js",
@@ -11,6 +11,11 @@
   "author": "James Wood <james.wood@datatransparency.com>",
   "license": "BSD",
   "dependencies": {
+    "tsuju-pouchdb": "x",
+    "tsuju-utils": "x",
+    "tsuju-core": "x",
+    "tsuju-objecttypes": "x",
+    "tsuju-jsoncrypto": "x",
     "async": "0.2.x"
   },
   "devDependencies": {
@@ -34,6 +39,6 @@
   "scripts": {
     "install": "grunt install",
     "test": "grunt test",
-    "link": "rm -R node_modules; npm link; npm link getWatchers; npm link pouchdb; npm link utils;npm link core;npm link objectTypes;npm link jsonCrypto; grunt install"
+    "link": "rm -R node_modules; npm link; npm link tsuju-pouchdb; npm link tsuju-utils;npm link tsuju-core;npm link tsuju-objecttypes;npm link tsuju-jsoncrypto; grunt install"
   }
 }
